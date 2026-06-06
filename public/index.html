@@ -3,116 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook UID Tool - Lấy ID Facebook Miễn Phí</title>
+    <title>Facebook UID Tool Pro - Lấy ID Bài viết, Profile, Fanpage</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:linear-gradient(135deg,#1877f2,#0c5d9e);font-family:'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:20px}
-        .container{max-width:800px;margin:0 auto}
-        .card{background:white;border-radius:24px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,0.3);margin-top:50px}
-        .logo{text-align:center;margin-bottom:30px}
-        .logo h1{color:#1877f2;font-size:32px;margin-bottom:10px}
-        .input-group{margin-bottom:20px}
-        label{display:block;margin-bottom:8px;font-weight:600}
-        input,textarea{width:100%;padding:14px 18px;border:2px solid #e4e6eb;border-radius:16px;font-size:15px}
-        input:focus,textarea:focus{outline:none;border-color:#1877f2}
-        button{background:#1877f2;color:white;border:none;padding:14px 28px;border-radius:40px;font-weight:700;cursor:pointer;width:100%}
-        button:hover{background:#166fe5}
-        .result-box{margin-top:30px;padding:20px;background:#f7f8fa;border-radius:16px;display:none}
-        .result-box.show{display:block}
-        .uid-display{background:white;padding:18px;border-radius:12px;margin:15px 0;font-family:monospace;font-size:22px;font-weight:bold;color:#1877f2;text-align:center}
-        .copy-btn{background:#42b72a;width:auto;padding:10px 24px;margin-top:10px}
-        .error{color:#d93025;font-size:14px;margin-top:10px;text-align:center}
-        .success{color:#42b72a}
-        .loading{display:inline-block;width:20px;height:20px;border:3px solid #f3f3f3;border-top:3px solid #1877f2;border-radius:50%;animation:spin 1s linear infinite;margin-right:10px;vertical-align:middle}
-        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-        .batch-area{margin-top:30px;padding-top:30px;border-top:1px solid #e4e6eb}
-        .badge{display:inline-block;padding:4px 10px;background:#e4e6eb;border-radius:12px;font-size:11px}
-        .footer{text-align:center;margin-top:30px;color:rgba(255,255,255,0.8);font-size:13px}
-        .method-badge{background:#e7f3ff;color:#1877f2;padding:4px 12px;border-radius:20px;font-size:12px}
-        @media (max-width:600px){.card{padding:24px}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1877f2 0%, #0c5d9e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin-top: 30px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e4e6eb;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #65676b;
+            border-radius: 40px;
+            transition: 0.2s;
+            width: auto;
+        }
+        .tab-btn.active {
+            background: #1877f2;
+            color: white;
+            box-shadow: 0 2px 8px rgba(24,119,242,0.3);
+        }
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            color: #1b1f23;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e4e6eb;
+            border-radius: 16px;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+        input:focus, textarea:focus {
+            border-color: #1877f2;
+            outline: none;
+        }
+        button {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #166fe5;
+            transform: translateY(-1px);
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f7f8fa;
+            border-radius: 20px;
+            display: none;
+        }
+        .result-box.show {
+            display: block;
+        }
+        .uid-value {
+            background: white;
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            word-break: break-all;
+            color: #1877f2;
+            margin: 15px 0;
+        }
+        .copy-btn {
+            background: #42b72a;
+            width: auto;
+            padding: 8px 20px;
+            margin-top: 5px;
+        }
+        .method-badge {
+            display: inline-block;
+            background: #e7f3ff;
+            color: #1877f2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .error-msg {
+            color: #d93025;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .success-msg {
+            color: #42b72a;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1877f2;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+        .note {
+            font-size: 12px;
+            color: #65676b;
+            margin-top: 12px;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .card { padding: 20px; }
+            .tab-btn { padding: 8px 16px; font-size: 14px; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="card">
-        <div class="logo"><h1>🔍 Facebook UID Tool</h1><p>Công cụ lấy User ID chính xác, miễn phí</p></div>
-        <div class="input-group"><label>📎 Link Facebook (Profile, Username, Bài viết)</label><input type="text" id="singleUrl" placeholder="https://www.facebook.com/zuck hoặc https://www.facebook.com/profile.php?id=123456789"></div>
-        <button id="getSingleBtn">✨ Lấy UID Ngay</button>
-        <div id="singleResult" class="result-box"><div style="font-weight:600">🆔 Kết quả:</div><div id="uidValue" class="uid-display">-</div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;"><button id="copySingleBtn" class="copy-btn">📋 Sao chép UID</button><span id="methodBadge" class="method-badge"></span></div><div id="singleError" class="error"></div></div>
-        <div class="batch-area"><div class="input-group"><label>📚 Lấy nhiều UID (mỗi link 1 dòng, tối đa 20)</label><textarea id="batchUrls" rows="4" placeholder="https://www.facebook.com/user1&#10;https://www.facebook.com/user2"></textarea></div><button id="getBatchBtn">📦 Lấy UID Hàng Loạt</button><div id="batchResult" class="result-box"></div></div>
+        <h1 style="color: #1877f2; text-align: center; margin-bottom: 10px;">🔍 Facebook UID Tool Pro</h1>
+        <p style="text-align: center; margin-bottom: 25px;">Lấy UID từ Username, Link Profile, Bài viết, Fanpage (kể cả riêng tư nếu có token)</p>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab-profile">👤 Profile / Username</button>
+            <button class="tab-btn" data-tab="tab-post">📝 Bài viết (Post)</button>
+            <button class="tab-btn" data-tab="tab-batch">📦 Batch (nhiều link)</button>
+        </div>
+
+        <!-- Tab 1: Profile / Username -->
+        <div id="tab-profile" class="tab-pane active">
+            <div class="input-group">
+                <label>🔗 Nhập username hoặc link profile</label>
+                <input type="text" id="profileUrl" placeholder="Ví dụ: zuck hoặc https://www.facebook.com/zuck">
+            </div>
+            <button id="getProfileBtn">✅ Lấy UID Profile</button>
+            <div id="profileResult" class="result-box">
+                <div style="font-weight: 600;">🆔 UID:</div>
+                <div id="profileUid" class="uid-value">---</div>
+                <div style="text-align: center;">
+                    <button id="copyProfileBtn" class="copy-btn">📋 Sao chép</button>
+                    <span id="profileMethod" class="method-badge" style="margin-left: 10px;"></span>
+                </div>
+                <div id="profileError" class="error-msg"></div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Bài viết (Post) -->
+        <div id="tab-post" class="tab-pane">
+            <div class="input-group">
+                <label>🔗 Link bài viết Facebook</label>
+                <input type="text" id="postUrl" placeholder="https://www.facebook.com/username/posts/123456789">
+            </div>
+            <button id="getPostBtn">📄 Lấy UID Người đăng</button>
+            <div id="postResult" class="result-box">
+                <div style="font-weight: 600;">🆔 UID của người đăng:</div>
+                <div id="postUid" class="uid-value">---</div>
+                <div style="text-align: center;">
+                    <button id="copyPostBtn" class="copy-btn">📋 Sao chép</button>
+                    <span id="postMethod" class="method-badge"></span>
+                </div>
+                <div id="postError" class="error-msg"></div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Batch -->
+        <div id="tab-batch" class="tab-pane">
+            <div class="input-group">
+                <label>📚 Nhập nhiều link (mỗi link 1 dòng, tối đa 20)</label>
+                <textarea id="batchUrls" rows="6" placeholder="https://www.facebook.com/zuck&#10;https://www.facebook.com/ngockhanhsocial&#10;https://www.facebook.com/username/posts/123"></textarea>
+            </div>
+            <button id="getBatchBtn">📦 Lấy UID hàng loạt</button>
+            <div id="batchResult" class="result-box"></div>
+        </div>
+        <div class="note">
+            💡 Mẹo: Nếu không lấy được UID từ profile riêng tư, hãy thử dùng link dạng profile.php?id=... (lấy từ trình duyệt đã đăng nhập).
+        </div>
     </div>
-    <div class="footer"><p>⚡ Hỗ trợ mọi định dạng link | 🔒 Bảo mật | ✅ Hoạt động 24/7</p></div>
+    <div class="footer">
+        ⚡ Công cụ mạnh mẽ | 🔒 An toàn | ✅ Hỗ trợ post, profile, fanpage
+    </div>
 </div>
+
 <script>
-    const getSingleBtn=document.getElementById('getSingleBtn');
-    const singleUrl=document.getElementById('singleUrl');
-    const singleResult=document.getElementById('singleResult');
-    const uidValue=document.getElementById('uidValue');
-    const singleError=document.getElementById('singleError');
-    const copySingleBtn=document.getElementById('copySingleBtn');
-    const methodBadge=document.getElementById('methodBadge');
-    const getBatchBtn=document.getElementById('getBatchBtn');
-    const batchUrls=document.getElementById('batchUrls');
-    const batchResult=document.getElementById('batchResult');
-    getSingleBtn.onclick=async()=>{
-        let url=singleUrl.value.trim();
-        if(!url){alert('Vui lòng nhập link');return;}
-        getSingleBtn.disabled=true;getSingleBtn.innerHTML='<span class="loading"></span> Đang xử lý...';
-        try{
-            let res=await fetch('/api/get-uid',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
-            let data=await res.json();
-            singleResult.classList.add('show');
-            if(data.success){
-                uidValue.innerText=data.uid;
-                singleError.innerText='✅ Lấy thành công!';
-                singleError.className='success';
-                methodBadge.innerText=`Phương thức: ${data.method}`;
-            }else{
-                uidValue.innerText='❌ Lỗi';
-                singleError.innerText=data.error||'Không tìm thấy UID';
-                singleError.className='error';
-                methodBadge.innerText='';
+    // Helper gọi API
+    async function callAPI(endpoint, body) {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        return response.json();
+    }
+
+    // Xử lý Tab
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Lấy UID từ Profile/Username
+    const profileBtn = document.getElementById('getProfileBtn');
+    profileBtn.addEventListener('click', async () => {
+        let input = document.getElementById('profileUrl').value.trim();
+        if (!input) return alert('Vui lòng nhập username hoặc link profile');
+        profileBtn.disabled = true;
+        profileBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
+        document.getElementById('profileResult').classList.add('show');
+        document.getElementById('profileUid').innerText = 'Đang tìm...';
+        document.getElementById('profileError').innerText = '';
+        
+        try {
+            // Xác định nếu input là username hay full link
+            let username = input;
+            if (input.includes('facebook.com')) {
+                const match = input.match(/facebook\.com\/([^\/?&]+)/);
+                if (match && match[1]) username = match[1];
+                else username = input;
             }
-        }catch(e){
-            singleResult.classList.add('show');
-            uidValue.innerText='❌ Lỗi';
-            singleError.innerText='Lỗi kết nối máy chủ';
-            singleError.className='error';
-        }finally{
-            getSingleBtn.disabled=false;
-            getSingleBtn.innerHTML='✨ Lấy UID Ngay';
+            const data = await callAPI('/api/get-uid-from-username', { username });
+            if (data.success) {
+                document.getElementById('profileUid').innerText = data.uid;
+                document.getElementById('profileMethod').innerText = `Phương thức: ${data.method}`;
+                document.getElementById('profileError').innerText = '✅ Thành công!';
+                document.getElementById('profileError').style.color = '#42b72a';
+            } else {
+                document.getElementById('profileUid').innerText = '❌ Không tìm thấy';
+                document.getElementById('profileMethod').innerText = '';
+                document.getElementById('profileError').innerText = data.error;
+                document.getElementById('profileError').style.color = '#d93025';
+            }
+        } catch (err) {
+            document.getElementById('profileUid').innerText = 'Lỗi';
+            document.getElementById('profileError').innerText = 'Lỗi kết nối';
+        } finally {
+            profileBtn.disabled = false;
+            profileBtn.innerHTML = '✅ Lấy UID Profile';
         }
-    };
-    copySingleBtn.onclick=()=>{
-        let uid=uidValue.innerText;
-        if(uid&&uid!=='-'&&!uid.includes('❌')&&!uid.includes('Đang')){
-            navigator.clipboard.writeText(uid);
-            alert('✅ Đã sao chép: '+uid);
-        }else alert('❌ Chưa có UID hợp lệ');
-    };
-    getBatchBtn.onclick=async()=>{
-        let txt=batchUrls.value.trim();
-        if(!txt){alert('Vui lòng nhập link');return;}
-        let urls=txt.split('\n').filter(u=>u.trim());
-        if(urls.length>20){alert('Tối đa 20 link');return;}
-        getBatchBtn.disabled=true;getBatchBtn.innerHTML='<span class="loading"></span> Đang xử lý...';
-        batchResult.innerHTML='<div class="loading"></div> Đang xử lý...';
-        batchResult.classList.add('show');
-        try{
-            let res=await fetch('/api/batch-get-uid',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({urls})});
-            let data=await res.json();
-            let html='<div style="font-weight:600;margin-bottom:15px;">📊 Kết quả:</div>';
-            data.results.forEach(item=>{
-                if(item.success){
-                    html+=`<div style="background:white;padding:12px;margin-bottom:12px;border-radius:12px;border-left:4px solid #42b72a;"><div style="font-size:12px;color:#65676b;word-break:break-all;">${item.url}</div><div style="font-weight:bold;color:#1877f2;margin-top:8px;font-size:18px;">UID: ${item.uid}</div><div><span class="badge">${item.method}</span></div></div>`;
-                }else{
-                    html+=`<div style="background:white;padding:12px;margin-bottom:12px;border-radius:12px;border-left:4px solid #d93025;"><div style="font-size:12px;color:#65676b;">${item.url}</div><div style="color:#d93025;margin-top:8px;">❌ ${item.error}</div></div>`;
+    });
+
+    // Lấy UID từ bài viết
+    const postBtn = document.getElementById('getPostBtn');
+    postBtn.addEventListener('click', async () => {
+        let postUrl = document.getElementById('postUrl').value.trim();
+        if (!postUrl) return alert('Vui lòng nhập link bài viết');
+        postBtn.disabled = true;
+        postBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
+        document.getElementById('postResult').classList.add('show');
+        document.getElementById('postUid').innerText = 'Đang xử lý...';
+        document.getElementById('postError').innerText = '';
+        
+        try {
+            const data = await callAPI('/api/get-uid-from-post', { postUrl });
+            if (data.success) {
+                document.getElementById('postUid').innerText = data.uid;
+                document.getElementById('postMethod').innerText = `Phương thức: ${data.method}`;
+                document.getElementById('postError').innerText = '✅ Lấy thành công!';
+                document.getElementById('postError').style.color = '#42b72a';
+            } else {
+                document.getElementById('postUid').innerText = '❌ Không tìm được';
+                document.getElementById('postMethod').innerText = '';
+                document.getElementById('postError').innerText = data.error;
+            }
+        } catch (err) {
+            document.getElementById('postUid').innerText = 'Lỗi';
+            document.getElementById('postError').innerText = 'Lỗi kết nối';
+        } finally {
+            postBtn.disabled = false;
+            postBtn.innerHTML = '📄 Lấy UID Người đăng';
+        }
+    });
+
+    // Batch
+    const batchBtn = document.getElementById('getBatchBtn');
+    batchBtn.addEventListener('click', async () => {
+        const urlsText = document.getElementById('batchUrls').value;
+        if (!urlsText.trim()) return alert('Nhập ít nhất 1 link');
+        const urls = urlsText.split('\n').filter(u => u.trim()).slice(0, 20);
+        batchBtn.disabled = true;
+        batchBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
+        const batchResultDiv = document.getElementById('batchResult');
+        batchResultDiv.innerHTML = '<div class="loading"></div> Đang xử lý...';
+        batchResultDiv.classList.add('show');
+        
+        try {
+            const data = await callAPI('/api/batch-get-uid', { urls });
+            let html = '<div style="font-weight: 600; margin-bottom: 15px;">📊 Kết quả:</div>';
+            data.results.forEach(item => {
+                if (item.success) {
+                    html += `
+                        <div style="background: white; padding: 12px; margin-bottom: 10px; border-radius: 12px; border-left: 4px solid #42b72a;">
+                            <div style="font-size: 12px; color: #65676b; word-break: break-all;">${item.url}</div>
+                            <div style="font-size: 18px; font-weight: bold; color: #1877f2;">UID: ${item.uid}</div>
+                            <div><span class="method-badge">${item.method}</span></div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div style="background: white; padding: 12px; margin-bottom: 10px; border-radius: 12px; border-left: 4px solid #d93025;">
+                            <div style="font-size: 12px; color: #65676b;">${item.url}</div>
+                            <div style="color: #d93025;">❌ ${item.error}</div>
+                        </div>
+                    `;
                 }
             });
-            batchResult.innerHTML=html;
-        }catch(e){batchResult.innerHTML='<div class="error">❌ Lỗi kết nối</div>';
-        }finally{getBatchBtn.disabled=false;getBatchBtn.innerHTML='📦 Lấy UID Hàng Loạt';}
-    };
+            batchResultDiv.innerHTML = html;
+        } catch (err) {
+            batchResultDiv.innerHTML = '<div class="error-msg">Lỗi kết nối</div>';
+        } finally {
+            batchBtn.disabled = false;
+            batchBtn.innerHTML = '📦 Lấy UID hàng loạt';
+        }
+    });
+
+    // Copy buttons
+    document.getElementById('copyProfileBtn').addEventListener('click', () => copyText('profileUid'));
+    document.getElementById('copyPostBtn').addEventListener('click', () => copyText('postUid'));
+    function copyText(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        if (text && !text.includes('❌') && !text.includes('Đang')) {
+            navigator.clipboard.writeText(text);
+            alert('✅ Đã sao chép: ' + text);
+        } else alert('❌ Không có UID hợp lệ');
+    }
 </script>
 </body>
 </html>
