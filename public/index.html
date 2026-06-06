@@ -2,42 +2,46 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook UID Tool Pro - Lấy ID Bài viết, Profile, Fanpage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Social Media UID Tool - Facebook & TikTok</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #1877f2 0%, #0c5d9e 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             padding: 20px;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1000px; margin: 0 auto; }
         .card {
             background: white;
             border-radius: 28px;
-            padding: 30px;
+            padding: 35px 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             margin-top: 30px;
         }
+        h1 {
+            color: #1877f2;
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        .sub { text-align: center; color: #65676b; margin-bottom: 30px; }
         .tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 30px;
             border-bottom: 2px solid #e4e6eb;
             flex-wrap: wrap;
+            justify-content: center;
         }
         .tab-btn {
             background: none;
             border: none;
-            padding: 12px 24px;
+            padding: 12px 28px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -51,20 +55,10 @@
             color: white;
             box-shadow: 0 2px 8px rgba(24,119,242,0.3);
         }
-        .tab-pane {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        .tab-pane.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
+        .tab-pane { display: none; animation: fadeIn 0.3s ease; }
+        .tab-pane.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .input-group { margin-bottom: 20px; }
         label {
             font-weight: 600;
             display: block;
@@ -95,10 +89,7 @@
             width: 100%;
             transition: 0.2s;
         }
-        button:hover {
-            background: #166fe5;
-            transform: translateY(-1px);
-        }
+        button:hover { background: #166fe5; transform: translateY(-1px); }
         .result-box {
             margin-top: 25px;
             padding: 20px;
@@ -106,20 +97,19 @@
             border-radius: 20px;
             display: none;
         }
-        .result-box.show {
-            display: block;
-        }
-        .uid-value {
+        .result-box.show { display: block; }
+        .uid-value, .video-info {
             background: white;
             padding: 15px;
             border-radius: 14px;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             text-align: center;
             word-break: break-all;
             color: #1877f2;
             margin: 15px 0;
         }
+        .video-info p { margin: 8px 0; font-size: 14px; color: #050505; }
         .copy-btn {
             background: #42b72a;
             width: auto;
@@ -134,15 +124,8 @@
             border-radius: 20px;
             font-size: 12px;
         }
-        .error-msg {
-            color: #d93025;
-            font-size: 14px;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .success-msg {
-            color: #42b72a;
-        }
+        .error-msg { color: #d93025; font-size: 14px; text-align: center; margin-top: 10px; }
+        .success-msg { color: #42b72a; }
         .loading {
             display: inline-block;
             width: 20px;
@@ -154,91 +137,70 @@
             margin-right: 8px;
             vertical-align: middle;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255,255,255,0.8);
-            font-size: 13px;
-        }
-        .note {
-            font-size: 12px;
-            color: #65676b;
-            margin-top: 12px;
-            text-align: center;
-        }
-        @media (max-width: 600px) {
-            .card { padding: 20px; }
-            .tab-btn { padding: 8px 16px; font-size: 14px; }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .footer { text-align: center; margin-top: 30px; color: rgba(255,255,255,0.8); font-size: 13px; }
+        .note { font-size: 12px; color: #65676b; margin-top: 12px; text-align: center; }
+        @media (max-width: 600px) { .card { padding: 20px; } .tab-btn { padding: 8px 16px; font-size: 14px; } }
+        .embed-container { margin-top: 20px; text-align: center; }
+        .embed-container iframe { max-width: 100%; border-radius: 12px; }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="card">
-        <h1 style="color: #1877f2; text-align: center; margin-bottom: 10px;">🔍 Facebook UID Tool Pro</h1>
-        <p style="text-align: center; margin-bottom: 25px;">Lấy UID từ Username, Link Profile, Bài viết, Fanpage (kể cả riêng tư nếu có token)</p>
+        <h1>🔍 Social Media UID Tool</h1>
+        <div class="sub">Hỗ trợ Facebook & TikTok | Chính xác, nhanh chóng, miễn phí</div>
 
         <div class="tabs">
-            <button class="tab-btn active" data-tab="tab-profile">👤 Profile / Username</button>
-            <button class="tab-btn" data-tab="tab-post">📝 Bài viết (Post)</button>
-            <button class="tab-btn" data-tab="tab-batch">📦 Batch (nhiều link)</button>
+            <button class="tab-btn active" data-tab="tab-facebook">👤 Facebook</button>
+            <button class="tab-btn" data-tab="tab-tiktok">🎵 TikTok</button>
         </div>
 
-        <!-- Tab 1: Profile / Username -->
-        <div id="tab-profile" class="tab-pane active">
+        <!-- Tab Facebook -->
+        <div id="tab-facebook" class="tab-pane active">
             <div class="input-group">
-                <label>🔗 Nhập username hoặc link profile</label>
-                <input type="text" id="profileUrl" placeholder="Ví dụ: zuck hoặc https://www.facebook.com/zuck">
+                <label>🔗 Nhập link Facebook (Profile, Username, Bài viết)</label>
+                <input type="text" id="fbUrl" placeholder="https://www.facebook.com/username hoặc https://www.facebook.com/profile.php?id=123456789">
             </div>
-            <button id="getProfileBtn">✅ Lấy UID Profile</button>
-            <div id="profileResult" class="result-box">
+            <button id="getFbBtn">✅ Lấy UID Facebook</button>
+            <div id="fbResult" class="result-box">
                 <div style="font-weight: 600;">🆔 UID:</div>
-                <div id="profileUid" class="uid-value">---</div>
+                <div id="fbUid" class="uid-value">---</div>
                 <div style="text-align: center;">
-                    <button id="copyProfileBtn" class="copy-btn">📋 Sao chép</button>
-                    <span id="profileMethod" class="method-badge" style="margin-left: 10px;"></span>
+                    <button id="copyFbBtn" class="copy-btn">📋 Sao chép UID</button>
+                    <span id="fbMethod" class="method-badge" style="margin-left: 10px;"></span>
                 </div>
-                <div id="profileError" class="error-msg"></div>
+                <div id="fbError" class="error-msg"></div>
             </div>
+            <div class="note">💡 Mẹo: Nếu không lấy được, hãy thử dùng link dạng profile.php?id=...</div>
         </div>
 
-        <!-- Tab 2: Bài viết (Post) -->
-        <div id="tab-post" class="tab-pane">
+        <!-- Tab TikTok MỚI -->
+        <div id="tab-tiktok" class="tab-pane">
             <div class="input-group">
-                <label>🔗 Link bài viết Facebook</label>
-                <input type="text" id="postUrl" placeholder="https://www.facebook.com/username/posts/123456789">
+                <label>🎵 Nhập link TikTok (rút gọn hoặc đầy đủ)</label>
+                <input type="text" id="ttUrl" placeholder="https://vm.tiktok.com/xxxx hoặc https://www.tiktok.com/@username/video/123456789">
             </div>
-            <button id="getPostBtn">📄 Lấy UID Người đăng</button>
-            <div id="postResult" class="result-box">
-                <div style="font-weight: 600;">🆔 UID của người đăng:</div>
-                <div id="postUid" class="uid-value">---</div>
-                <div style="text-align: center;">
-                    <button id="copyPostBtn" class="copy-btn">📋 Sao chép</button>
-                    <span id="postMethod" class="method-badge"></span>
+            <button id="getTtBtn">🎬 Lấy thông tin Video</button>
+            <div id="ttResult" class="result-box">
+                <div style="font-weight: 600;">📹 Thông tin Video:</div>
+                <div id="ttInfo" class="video-info">
+                    <p><strong>Tiêu đề:</strong> <span id="ttTitle">---</span></p>
+                    <p><strong>Tác giả:</strong> <span id="ttAuthor">---</span></p>
+                    <p><strong>ID Video:</strong> <span id="ttVideoId">---</span></p>
+                    <p><strong>Link đầy đủ:</strong> <span id="ttFullUrl" style="word-break: break-all;">---</span></p>
                 </div>
-                <div id="postError" class="error-msg"></div>
+                <div style="text-align: center;">
+                    <button id="copyTtIdBtn" class="copy-btn" style="background: #42b72a;">📋 Sao chép ID</button>
+                    <button id="copyTtAuthorBtn" class="copy-btn" style="background: #1877f2;">👤 Sao chép Username</button>
+                </div>
+                <div id="ttEmbedContainer" class="embed-container"></div>
+                <div id="ttError" class="error-msg"></div>
             </div>
-        </div>
-
-        <!-- Tab 3: Batch -->
-        <div id="tab-batch" class="tab-pane">
-            <div class="input-group">
-                <label>📚 Nhập nhiều link (mỗi link 1 dòng, tối đa 20)</label>
-                <textarea id="batchUrls" rows="6" placeholder="https://www.facebook.com/zuck&#10;https://www.facebook.com/ngockhanhsocial&#10;https://www.facebook.com/username/posts/123"></textarea>
-            </div>
-            <button id="getBatchBtn">📦 Lấy UID hàng loạt</button>
-            <div id="batchResult" class="result-box"></div>
-        </div>
-        <div class="note">
-            💡 Mẹo: Nếu không lấy được UID từ profile riêng tư, hãy thử dùng link dạng profile.php?id=... (lấy từ trình duyệt đã đăng nhập).
+            <div class="note">🔄 Hỗ trợ cả link rút gọn (vm.tiktok.com) và link đầy đủ.</div>
         </div>
     </div>
-    <div class="footer">
-        ⚡ Công cụ mạnh mẽ | 🔒 An toàn | ✅ Hỗ trợ post, profile, fanpage
-    </div>
+    <div class="footer">⚡ Công cụ mạnh mẽ | 🔒 An toàn | ✅ Hỗ trợ Facebook & TikTok</div>
 </div>
 
 <script>
@@ -262,130 +224,101 @@
         });
     });
 
-    // Lấy UID từ Profile/Username
-    const profileBtn = document.getElementById('getProfileBtn');
-    profileBtn.addEventListener('click', async () => {
-        let input = document.getElementById('profileUrl').value.trim();
-        if (!input) return alert('Vui lòng nhập username hoặc link profile');
-        profileBtn.disabled = true;
-        profileBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
-        document.getElementById('profileResult').classList.add('show');
-        document.getElementById('profileUid').innerText = 'Đang tìm...';
-        document.getElementById('profileError').innerText = '';
+    // --- FACEBOOK (Giữ nguyên logic cũ) ---
+    const fbBtn = document.getElementById('getFbBtn');
+    fbBtn.addEventListener('click', async () => {
+        const url = document.getElementById('fbUrl').value.trim();
+        if (!url) return alert('Vui lòng nhập link Facebook');
+        fbBtn.disabled = true;
+        fbBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
+        const resultDiv = document.getElementById('fbResult');
+        resultDiv.classList.add('show');
+        document.getElementById('fbUid').innerText = 'Đang xử lý...';
+        document.getElementById('fbError').innerText = '';
         
         try {
-            // Xác định nếu input là username hay full link
-            let username = input;
-            if (input.includes('facebook.com')) {
-                const match = input.match(/facebook\.com\/([^\/?&]+)/);
-                if (match && match[1]) username = match[1];
-                else username = input;
-            }
-            const data = await callAPI('/api/get-uid-from-username', { username });
+            const data = await callAPI('/api/get-uid', { url });
             if (data.success) {
-                document.getElementById('profileUid').innerText = data.uid;
-                document.getElementById('profileMethod').innerText = `Phương thức: ${data.method}`;
-                document.getElementById('profileError').innerText = '✅ Thành công!';
-                document.getElementById('profileError').style.color = '#42b72a';
+                document.getElementById('fbUid').innerText = data.uid;
+                document.getElementById('fbMethod').innerText = `Phương thức: ${data.method}`;
+                document.getElementById('fbError').innerHTML = '<span style="color:#42b72a;">✅ Thành công!</span>';
             } else {
-                document.getElementById('profileUid').innerText = '❌ Không tìm thấy';
-                document.getElementById('profileMethod').innerText = '';
-                document.getElementById('profileError').innerText = data.error;
-                document.getElementById('profileError').style.color = '#d93025';
+                document.getElementById('fbUid').innerText = '❌ Không tìm thấy';
+                document.getElementById('fbError').innerHTML = `<span style="color:#d93025;">${data.error || 'Lỗi không xác định'}</span>`;
+                document.getElementById('fbMethod').innerText = '';
             }
         } catch (err) {
-            document.getElementById('profileUid').innerText = 'Lỗi';
-            document.getElementById('profileError').innerText = 'Lỗi kết nối';
+            document.getElementById('fbUid').innerText = 'Lỗi';
+            document.getElementById('fbError').innerHTML = '<span style="color:#d93025;">Lỗi kết nối máy chủ</span>';
         } finally {
-            profileBtn.disabled = false;
-            profileBtn.innerHTML = '✅ Lấy UID Profile';
+            fbBtn.disabled = false;
+            fbBtn.innerHTML = '✅ Lấy UID Facebook';
         }
     });
 
-    // Lấy UID từ bài viết
-    const postBtn = document.getElementById('getPostBtn');
-    postBtn.addEventListener('click', async () => {
-        let postUrl = document.getElementById('postUrl').value.trim();
-        if (!postUrl) return alert('Vui lòng nhập link bài viết');
-        postBtn.disabled = true;
-        postBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
-        document.getElementById('postResult').classList.add('show');
-        document.getElementById('postUid').innerText = 'Đang xử lý...';
-        document.getElementById('postError').innerText = '';
+    document.getElementById('copyFbBtn').addEventListener('click', () => {
+        const uid = document.getElementById('fbUid').innerText;
+        if (uid && !uid.includes('❌') && !uid.includes('Đang') && !uid.includes('Lỗi')) {
+            navigator.clipboard.writeText(uid);
+            alert('✅ Đã sao chép UID: ' + uid);
+        } else alert('❌ Không có UID hợp lệ để sao chép');
+    });
+
+    // --- TIKTOK MỚI ---
+    const ttBtn = document.getElementById('getTtBtn');
+    ttBtn.addEventListener('click', async () => {
+        const url = document.getElementById('ttUrl').value.trim();
+        if (!url) return alert('Vui lòng nhập link TikTok');
+        ttBtn.disabled = true;
+        ttBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
+        const resultDiv = document.getElementById('ttResult');
+        resultDiv.classList.add('show');
+        document.getElementById('ttTitle').innerText = 'Đang tải...';
+        document.getElementById('ttAuthor').innerText = '---';
+        document.getElementById('ttVideoId').innerText = '---';
+        document.getElementById('ttFullUrl').innerText = '---';
+        document.getElementById('ttError').innerText = '';
+        const embedContainer = document.getElementById('ttEmbedContainer');
+        embedContainer.innerHTML = '';
         
         try {
-            const data = await callAPI('/api/get-uid-from-post', { postUrl });
+            const data = await callAPI('/api/tiktok/info', { url });
             if (data.success) {
-                document.getElementById('postUid').innerText = data.uid;
-                document.getElementById('postMethod').innerText = `Phương thức: ${data.method}`;
-                document.getElementById('postError').innerText = '✅ Lấy thành công!';
-                document.getElementById('postError').style.color = '#42b72a';
+                document.getElementById('ttTitle').innerText = data.title || 'Không có tiêu đề';
+                document.getElementById('ttAuthor').innerText = data.author_name || 'Không rõ';
+                document.getElementById('ttVideoId').innerText = data.video_id || 'Không xác định';
+                document.getElementById('ttFullUrl').innerHTML = `<a href="${data.original_url}" target="_blank">${data.original_url}</a>`;
+                if (data.embed_html) embedContainer.innerHTML = data.embed_html;
+                else embedContainer.innerHTML = '<p class="note">⚠️ Không thể tạo embed cho video này</p>';
+                document.getElementById('ttError').innerHTML = '<span style="color:#42b72a;">✅ Lấy thông tin thành công!</span>';
             } else {
-                document.getElementById('postUid').innerText = '❌ Không tìm được';
-                document.getElementById('postMethod').innerText = '';
-                document.getElementById('postError').innerText = data.error;
+                document.getElementById('ttTitle').innerText = 'Lỗi';
+                document.getElementById('ttError').innerHTML = `<span style="color:#d93025;">${data.error || 'Không thể lấy thông tin video'}</span>`;
             }
         } catch (err) {
-            document.getElementById('postUid').innerText = 'Lỗi';
-            document.getElementById('postError').innerText = 'Lỗi kết nối';
+            document.getElementById('ttTitle').innerText = 'Lỗi';
+            document.getElementById('ttError').innerHTML = '<span style="color:#d93025;">Lỗi kết nối máy chủ</span>';
         } finally {
-            postBtn.disabled = false;
-            postBtn.innerHTML = '📄 Lấy UID Người đăng';
+            ttBtn.disabled = false;
+            ttBtn.innerHTML = '🎬 Lấy thông tin Video';
         }
     });
 
-    // Batch
-    const batchBtn = document.getElementById('getBatchBtn');
-    batchBtn.addEventListener('click', async () => {
-        const urlsText = document.getElementById('batchUrls').value;
-        if (!urlsText.trim()) return alert('Nhập ít nhất 1 link');
-        const urls = urlsText.split('\n').filter(u => u.trim()).slice(0, 20);
-        batchBtn.disabled = true;
-        batchBtn.innerHTML = '<span class="loading"></span> Đang xử lý...';
-        const batchResultDiv = document.getElementById('batchResult');
-        batchResultDiv.innerHTML = '<div class="loading"></div> Đang xử lý...';
-        batchResultDiv.classList.add('show');
-        
-        try {
-            const data = await callAPI('/api/batch-get-uid', { urls });
-            let html = '<div style="font-weight: 600; margin-bottom: 15px;">📊 Kết quả:</div>';
-            data.results.forEach(item => {
-                if (item.success) {
-                    html += `
-                        <div style="background: white; padding: 12px; margin-bottom: 10px; border-radius: 12px; border-left: 4px solid #42b72a;">
-                            <div style="font-size: 12px; color: #65676b; word-break: break-all;">${item.url}</div>
-                            <div style="font-size: 18px; font-weight: bold; color: #1877f2;">UID: ${item.uid}</div>
-                            <div><span class="method-badge">${item.method}</span></div>
-                        </div>
-                    `;
-                } else {
-                    html += `
-                        <div style="background: white; padding: 12px; margin-bottom: 10px; border-radius: 12px; border-left: 4px solid #d93025;">
-                            <div style="font-size: 12px; color: #65676b;">${item.url}</div>
-                            <div style="color: #d93025;">❌ ${item.error}</div>
-                        </div>
-                    `;
-                }
-            });
-            batchResultDiv.innerHTML = html;
-        } catch (err) {
-            batchResultDiv.innerHTML = '<div class="error-msg">Lỗi kết nối</div>';
-        } finally {
-            batchBtn.disabled = false;
-            batchBtn.innerHTML = '📦 Lấy UID hàng loạt';
-        }
+    document.getElementById('copyTtIdBtn').addEventListener('click', () => {
+        const videoId = document.getElementById('ttVideoId').innerText;
+        if (videoId && videoId !== '---' && !videoId.includes('Lỗi') && !videoId.includes('Đang')) {
+            navigator.clipboard.writeText(videoId);
+            alert('✅ Đã sao chép ID Video: ' + videoId);
+        } else alert('❌ Không có ID video để sao chép');
     });
 
-    // Copy buttons
-    document.getElementById('copyProfileBtn').addEventListener('click', () => copyText('profileUid'));
-    document.getElementById('copyPostBtn').addEventListener('click', () => copyText('postUid'));
-    function copyText(elementId) {
-        const text = document.getElementById(elementId).innerText;
-        if (text && !text.includes('❌') && !text.includes('Đang')) {
-            navigator.clipboard.writeText(text);
-            alert('✅ Đã sao chép: ' + text);
-        } else alert('❌ Không có UID hợp lệ');
-    }
+    document.getElementById('copyTtAuthorBtn').addEventListener('click', () => {
+        const author = document.getElementById('ttAuthor').innerText;
+        if (author && author !== '---' && !author.includes('Lỗi') && !author.includes('Đang')) {
+            navigator.clipboard.writeText(author);
+            alert('✅ Đã sao chép Username: ' + author);
+        } else alert('❌ Không có Username để sao chép');
+    });
 </script>
 </body>
 </html>
