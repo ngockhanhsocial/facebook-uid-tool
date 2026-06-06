@@ -1,0 +1,14 @@
+{
+  "name": "facebook-uid-vercel",
+  "version": "1.0.0",
+  "description": "API lấy UID Facebook chạy trên Vercel",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
